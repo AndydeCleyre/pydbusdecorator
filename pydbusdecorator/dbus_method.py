@@ -116,7 +116,7 @@ class DbusMethod(DbusDecorator):
     
     def convert_kw_to_dbus_kw(self, **kw):
         kw_to_dbus = self.kw_to_dbus
-        if isinstance(kw_to_dbus, collections.Callable)
+        if isinstance(kw_to_dbus, collections.Callable):
             return kw_to_dbus(**kw)
         
         if hasattr(self.kw_to_dbus, 'keys'):
