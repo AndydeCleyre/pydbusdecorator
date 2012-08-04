@@ -9,9 +9,8 @@ Created on Jan 5, 2012
 
 import re
 import dbus
-import libxslt
-import libxml2
-from libxml2 import xmlDoc
+from lxml import etree
+
 
 def replace(ctx, string, pattern, repl, *args, **kwargs):
     return re.sub(pattern, repl, string)
@@ -19,27 +18,27 @@ def replace(ctx, string, pattern, repl, *args, **kwargs):
 def lower_case(ctx, string, *args, **kwargs):
     return string.lower()
 
-libxslt.registerExtModuleFunction("replace", "https://github.com/hugosenari", replace)
-libxslt.registerExtModuleFunction("lower-case", "https://github.com/hugosenari", lower_case)
+# libxslt.registerExtModuleFunction("replace", "https://github.com/hugosenari", replace)
+# libxslt.registerExtModuleFunction("lower-case", "https://github.com/hugosenari", lower_case)
 
 class XmlHelper(object):
     '''
     Class with utilities
     '''
     @staticmethod
-    def toXmlDoc(xml, *args, **kwargs):
+    def toElementTree(xml, *args, **kwargs):
         '''
-        Converts xml file path or xml str in libxml2.xmlDoc
+        Converts xml file path or xml str into etree.ElementTree
         '''
         result = None
-        #test if is xmldoc
-        if not isinstance(xml, xmlDoc):
+        #test if is ElementTree
+        if not isinstance(xml, etree.ElementTree):
             _xml = str(xml).strip()
-#            print 'xml>>>',_xml, '<<<xml'
+#            print('xml>>>', _xml, '<<<xml')
             if re.findall("<[!a-zA-Z]+", _xml, re.MULTILINE):
-                result = libxml2.parseDoc(_xml)
+                result = etree.fromstring(_xml)
             else:
-                result = libxml2.parseFile(_xml)
+                result = etree.parse(_xml)
             return result
         return xml
 
@@ -49,9 +48,8 @@ class XmlHelper(object):
         Converts xml to anything defined by xslt
         Keywords was passed to stylesheet as param
         '''
-        xsl = libxslt.parseStylesheetDoc(xslt)
-        result = xsl.applyStylesheet(xml, kwargs)
-        xsl.freeStylesheet()
+        transform = etree.XSLT(xslt)
+        result = transform(xml, kwargs)
         return result
 
     @staticmethod
@@ -90,14 +88,14 @@ class Dbus2Xml(object):
             yield self.match_interface(self.interface)
         else:
             xml = self.xml
-            xslt = XmlHelper.toXmlDoc(
+            xslt = XmlHelper.toElementTree(
                 "%s%s" % (self._get_current_dir(), "node.xsl"),
                 *args, **kwargs)
             nodes = XmlHelper.xmlTo(xml, xslt, *args, **kwargs)
             node = nodes.children
             while not node:
                 yield node
-                node = node.next
+                node = node.__next__
             XmlHelper.freeDoc(nodes, xslt, xml)
 
     def _get_current_dir(self):
@@ -105,7 +103,7 @@ class Dbus2Xml(object):
 
     @property
     def xml(self, *args, **kwargs):
-        return XmlHelper.toXmlDoc(self._xml, *args, **kwargs)
+        return XmlHelper.toElementTree(self._xml, *args, **kwargs)
 
     @property
     def content(self):
@@ -143,11 +141,11 @@ class Xml2Any(object):
 
     @property
     def xml(self, *args, **kwargs):
-        return XmlHelper.toXmlDoc(self._xml, *args, **kwargs)
+        return XmlHelper.toElementTree(self._xml, *args, **kwargs)
 
     @property
     def xslt(self, *args, **kwargs):
-        return XmlHelper.toXmlDoc(self._xslt, *args, **kwargs)
+        return XmlHelper.toElementTree(self._xslt, *args, **kwargs)
 
     @property
     def content(self):
@@ -180,5 +178,5 @@ if __name__ == '__main__':
     dbus2xml = Dbus2Xml(args.busName, args.objectPath)
 
     xml2any = Xml2Any(dbus2xml, args.xslt)
-    print xml2any
+    print(xml2any)
 

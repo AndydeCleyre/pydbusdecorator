@@ -5,7 +5,7 @@ Created on Dec 26, 2011
 @author: hugosenari
 '''
 from pydbusdecorator import DbusInterface
-from dbus import My_Dbus, OBJECT_PATH, OBJECT_URI, OBJECT_URI_TOO, INTERFACE
+from pydbusdecorator.fixtures.dbus import My_Dbus, OBJECT_PATH, OBJECT_URI, OBJECT_URI_TOO, INTERFACE
 
 DbusInterface.dbus_lib = My_Dbus()
 OBJECT_URI_OTHER = "org.test.interface.InterfaceWithAllParams"

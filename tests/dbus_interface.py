@@ -5,7 +5,7 @@ Created on Dec 26, 2011
 '''
 import unittest
 
-from fixtures.interfaces import BasicInterface, BasicInterfaceInit, OBJECT_URI_TOO,\
+from pydbusdecorator.fixtures.interfaces import BasicInterface, BasicInterfaceInit, OBJECT_URI_TOO,\
     BasicInterfaceWithParamInConstructor, BasicInterfaceWithKeywordsInConstructor, \
     BasicInterfaceWithParamAndKeywordsInConstructor, InterfaceWithAllParams, \
     ExtendingInterfaceInit

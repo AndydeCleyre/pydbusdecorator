@@ -6,8 +6,8 @@ Created on Jan 4, 2012
 @author: hugosenari
 '''
 import unittest
-from fixtures.extended import BasicInterface, ExtendingInterface, SomeReturnType
-from fixtures.dbus import RESPONSE, ANOTHER_RESPONSE
+from pydbusdecorator.fixtures.extended import BasicInterface, ExtendingInterface, SomeReturnType
+from pydbusdecorator.fixtures.dbus import RESPONSE, ANOTHER_RESPONSE
     
     
 class ExtendedInterfaceTest(unittest.TestCase):

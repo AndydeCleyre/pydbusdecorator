@@ -4,9 +4,9 @@ Created on Dec 27, 2011
 @author: hugosenari
 '''
 import unittest
-from fixtures.attributes import BasicInterfaceWithAttributes
-from fixtures.methods import SomeReturnType, AnotherReturnType
-from fixtures.dbus import RESPONSE, ANOTHER_RESPONSE
+from pydbusdecorator.fixtures.attributes import BasicInterfaceWithAttributes
+from pydbusdecorator.fixtures.methods import SomeReturnType, AnotherReturnType
+from pydbusdecorator.fixtures.dbus import RESPONSE, ANOTHER_RESPONSE
 
 class DbusAttrTest(unittest.TestCase):
     """

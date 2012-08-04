@@ -4,10 +4,11 @@ Created on Nov 5, 2011
 @author: hugosenari
 '''
 
+import collections
+from functools import wraps
+
 from pydbusdecorator.dbus_decorator import DbusDecorator
 from pydbusdecorator.dbus_interface import DbusInterface
-
-from functools import wraps
 
 
 def kw_to_dbus(**kw):
@@ -99,7 +100,7 @@ class DbusMethod(DbusDecorator):
     
     def convert_args_to_dbus_args(self, *args):
         args_to_dbus = self.args_to_dbus
-        if callable(args_to_dbus):
+        if isinstance(args_to_dbus, collections.Callable):
             return args_to_dbus(*args)
         
         result = []
@@ -108,14 +109,14 @@ class DbusMethod(DbusDecorator):
             arg = args[i]
             if i < len(args_to_dbus):
                 make = args_to_dbus[i]
-                if callable(make):
+                if isinstance(make, collections.Callable):
                     arg = make(arg)
             result.append(arg)
         return tuple(result)
     
     def convert_kw_to_dbus_kw(self, **kw):
         kw_to_dbus = self.kw_to_dbus
-        if callable(kw_to_dbus):
+        if isinstance(kw_to_dbus, collections.Callable)
             return kw_to_dbus(**kw)
         
         if hasattr(self.kw_to_dbus, 'keys'):

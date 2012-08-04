@@ -4,8 +4,8 @@ Created on Dec 29, 2011
 @author: hugosenari
 '''
 import unittest
-from fixtures.methods import BasicInterfaceWithMethods, SomeReturnType, AnotherReturnType
-from fixtures.dbus import RESPONSE, ANOTHER_RESPONSE
+from pydbusdecorator.fixtures.methods import BasicInterfaceWithMethods, SomeReturnType, AnotherReturnType
+from pydbusdecorator.fixtures.dbus import RESPONSE, ANOTHER_RESPONSE
 
 
 class DbusMethodTest(unittest.TestCase):

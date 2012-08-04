@@ -7,7 +7,7 @@ Created on Jan 4, 2012
 '''
 
 from pydbusdecorator import DbusInterface, DbusMethod, DbusAttr
-from dbus import My_Dbus, OBJECT_PATH, OBJECT_URI, INTERFACE
+from pydbusdecorator.fixtures.dbus import My_Dbus, OBJECT_PATH, OBJECT_URI, INTERFACE
 
 DbusInterface.dbus_lib = My_Dbus()
 class SomeReturnType(object):
